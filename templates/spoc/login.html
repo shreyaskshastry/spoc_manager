@@ -1,0 +1,26 @@
+{% extends "partials/loginbase.html"%}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-md-4 mx-auto mt-4">
+	<div class="content-section mx-auto">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group mx-auto">
+				<legend class="border-bottom mb-4">
+					Login
+				</legend>
+				{{form|crispy}}
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Login</button>
+			</div>
+		</form>
+		<small class="text-muted">
+		<div class="border-top pt-3">
+			Don't have an account :
+			<a class="ml-2" href="{% url 'spoc-signup'%}">Sign Up</a>
+		</div>
+		</small>
+	</div>
+</div>
+{% endblock %}
