@@ -5,8 +5,10 @@ View PAGE
 
 {%block content%}
 <div class="col-md-12 mt-4 text-right">
-    <button type="button" class="btn btn-primary text-right">Download Templete</button>
-  </div>  
+  <button type="submit" class="btn btn-primary text-right" onclick="location.href='{% url 'spoc-upload'%}'">Bulk Upload</button>
+  <button type="submit" class="btn btn-primary text-right ml-3 mr-3" onclick="location.href='{% url 'spoc-download'%}'">Download Template</button>
+</div>
+
 <div class="container d-flex justify-content-center align-items-center">
     <div class="card">
         <div class="user text-center">

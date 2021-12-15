@@ -4,8 +4,15 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserSignupForm,SpocTableForm
 from .models import Spoc
 from django.contrib.auth.models import User
+import pandas as pd
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
+
 
 def view(request):
+    if request.method == "POST":
+        file = request.FILES["file"]
     luser = User.objects.get(username=request.user)
     context = {
         'profile' : luser.get_full_name(),
@@ -40,3 +47,26 @@ def make_entry(request):
             return redirect('/view')
     context = {'form':form}
     return render(request, 'spoc/test.html', context)
+
+def upload(request):
+    if request.method == 'POST':
+        file = request.FILES['file']
+        print(file)
+        df = pd.read_csv(file)
+        for i in df.index:
+            spoc = Spoc(screen_name = df["Screen Name"][i], 
+                team_name = df["Team Name"][i], 
+                spoc_name = df["Spoc Name"][i])
+            spoc.save()
+        return redirect('spoc-view')
+    else:
+        return render(request, 'spoc/upload.html')
+
+def download(request):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'template.csv')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404

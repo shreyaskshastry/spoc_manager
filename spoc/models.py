@@ -48,4 +48,3 @@ class Spoc(models.Model):
     modified_by = models.CharField(max_length=50,null=True)
 
 # b = Spoc(screen_name = 'Project master',team_name = 'DU',spoc_name = 'shreyas', created_by = 'Shreyas', modified_by = 'Shreyas')
-
