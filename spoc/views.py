@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserSignupForm
 
-def index(request):
-    return render(request, 'spoc/index.html')
+def view(request):
+    return render(request, 'spoc/view.html')
 
 def signup(request):
     if request.method=='POST':
