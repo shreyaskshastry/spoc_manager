@@ -1,30 +1,10 @@
 <!-- Editable table -->
-{%extends 'spoc/base.html'%}
+{%extends 'partials/base.html'%}
 {%block title%}
 INDEX PAGE
 {%endblock%}
 
 {%block content%}
-<style>
-  .dropdown-submenu {
-    position: relative;
-  }
-
-  .dropdown-submenu a::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 6px;
-  top: .8em;
-  }
-  
-  .dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
-    margin-left: .1rem;
-    margin-right: .1rem;
-  }
-</style>
 <div class="card">
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
       Edit Spoc 
@@ -51,59 +31,8 @@ INDEX PAGE
           <tbody>
             <tr>
               <td>1</td>
-              <td><div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Screen Names
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Proof_master</a>
-                  <a class="dropdown-item" href="#">Project_master</a>
-                  <a class="dropdown-item" href="#">Admin_master</a>
-                  <a class="dropdown-item" href="#">RI_master</a>
-                  <a class="dropdown-item" href="#">Account_master</a>
-                </div>
-              </div></td>
-              <!-- This is second one  -->
-              <td><div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Team Name
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Audit & Compliance</a></li>
-                  <li><a class="dropdown-item" href="#">Governance</a></li>
-                  <!-- DU -->
-                  <li class="dropdown-submenu">   
-                    <a class="test dropdown-item dropdown-toggle" tabindex="-1" href="#">DU<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item"  href="#">BFS</a></li>
-                      <li><a class="dropdown-item"  href="#">CTU</a></li>
-                      <li><a class="dropdown-item" href="#">EM</a></li>
-                      <li><a class="dropdown-item" href="#">Ins</a></li>
-                      <li><a class="dropdown-item" href="#">LS</a></li>
-                      <li><a class="dropdown-item" href="#">M&E</a></li>
-                      <li><a class="dropdown-item"href="#">MFG</a></li>
-                      <li><a class="dropdown-item" href="#">O&G</a></li>
-                      <li><a class="dropdown-item" href="#">INT</a></li>
-                    </ul>
-                  </li>
-                  <!-- PU -->
-                  <li class="dropdown-submenu">   
-                    <a class="test dropdown-item dropdown-toggle" tabindex="-1" href="#">PU<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">OR</a></li>
-                      <li><a class="dropdown-item" href="#">CIS</a></li>
-                      <li><a class="dropdown-item" href="#">AEG</a></li>
-                      <li><a class="dropdown-item" href="#">DATA</a></li>
-                      <li><a class="dropdown-item"href="#">SAP</a></li>
-                      <li><a class="dropdown-item"href="#">DGT</a></li>
-                      <li><a class="dropdown-item"href="#">CSTG</a></li>
-                      <li><a class="dropdown-item"href="#">CLD</a></li>
-                      <li><a class="dropdown-item" href="#">IIOT</a></li>
-                    </ul>
-                  </li>
-                  <li><a class="dropdown-item" href="#">Dev_Team</a></li>
-                </ul>
-              </div>
-            </div></td>
+              <td>Proof_master</td>  
+              <td>Dev_team</td> 
               <td class="pt-3-half" contenteditable="true">John</td>
               <td>12/12/21</td>
               <td>John</td>
@@ -118,15 +47,6 @@ INDEX PAGE
   <div class="col-md-12  text-center">
     <button type="button" class="btn btn-secondary">Update</button>
     <button type="button" class="btn btn-secondary">Cancel</button>
-  </div>   
-  <script>
-    $(document).ready(function(){
-      $('.dropdown-submenu a.test').on("click", function(e){
-        $(this).next('ul').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-      });
-    });
-  </script>    
+  </div>     
   {%endblock%}
   <!-- Editable table -->
