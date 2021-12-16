@@ -17,25 +17,25 @@ team_name_choices = [
     ('Governance','Governance'),
     ('Dev_team','Dev_team'),
     # DU teams 
-    ('BFS', 'BFS'),
-    ('CTU', 'CTU'),
-    ('EM', 'EM'),
-    ('Ins', 'Ins'),
-    ('LS', 'LS'),
-    ('M&E', 'M&E'),
-    ('MFG', 'MFG'),
-    ('O&G', 'O&G'),
-    ('INT', 'INT'),
+    ('DU(BFS)', 'DU(BFS)'),
+    ('DU(CTU)', 'DU(CTU)'),
+    ('DU(EM)', 'DU(EM)'),
+    ('DU(Ins)', 'DU(Ins)'),
+    ('DU(LS)', 'DU(LS)'),
+    ('DU(M&E)', 'DU(M&E)'),
+    ('DU(MFG)', 'DU(MFG)'),
+    ('DU(O&G)', 'DU(O&G)'),
+    ('DU(INT)', 'DU(INT)'),
     # PU teams 
-    ('OR', 'OR'),
-    ('CIS', 'CIS'),
-    ('AEG', 'AEG'),
-    ('DATA', 'DATA'),
-    ('SAP', 'SAP'),
-    ('DGT', 'DGT'),
-    ('CSGT', 'CSGT'),
-    ('CLD', 'CLD'),
-    ('IIOT', 'IIOT'),
+    ('PU(OR)', 'PU(OR)'),
+    ('PU(CIS)', 'PU(CIS)'),
+    ('PU(AEG)', 'PU(AEG)'),
+    ('PU(DATA)', 'PU(DATA)'),
+    ('PU(SAP)', 'PU(SAP)'),
+    ('PU(DGT)', 'PU(DGT)'),
+    ('PU(CSGT)', 'PU(CSGT)'),
+    ('PU(CLD)', 'PU(CLD)'),
+    ('PU(IIOT)', 'PU(IIOT)'),
 ]
 
 class Spoc(models.Model):   
@@ -46,5 +46,7 @@ class Spoc(models.Model):
     created_by = models.CharField(max_length=50,null=True)
     modified_date = models.DateField(auto_now_add=True)
     modified_by = models.CharField(max_length=50,null=True)
+    is_delete = models.BooleanField(default=False)
+    is_approve = models.BooleanField(default=False)
 
 # b = Spoc(screen_name = 'Project master',team_name = 'DU',spoc_name = 'shreyas', created_by = 'Shreyas', modified_by = 'Shreyas')

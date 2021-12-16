@@ -39,16 +39,26 @@ def signup(request):
 
 def make_entry(request):
     form = SpocTableForm()
+    luser = User.objects.get(username=request.user)
     if request.method == 'POST':
         # print(request.POST)
-        form = SpocTableForm(request.POST)
+        formdata = request.POST.copy()
+        formdata['created_by'] = luser.get_full_name()
+        formdata['modified_by'] = luser.get_full_name()
+        form = SpocTableForm(formdata)
         if form.is_valid():
             form.save()
             return redirect('/view')
-    context = {'form':form}
-    return render(request, 'spoc/test.html', context)
+        else:
+            print("lol")
+    context = {
+        'form':form,
+        'profile' : luser.get_full_name()
+    }
+    return render(request, 'spoc/newentry.html', context)
 
 def upload(request):
+    luser = User.objects.get(username=request.user)
     if request.method == 'POST':
         file = request.FILES['file']
         print(file)
@@ -56,7 +66,9 @@ def upload(request):
         for i in df.index:
             spoc = Spoc(screen_name = df["Screen Name"][i], 
                 team_name = df["Team Name"][i], 
-                spoc_name = df["Spoc Name"][i])
+                spoc_name = df["Spoc Name"][i],
+                created_by = luser.get_full_name(),
+                modified_by = luser.get_full_name())
             spoc.save()
         return redirect('spoc-view')
     else:
