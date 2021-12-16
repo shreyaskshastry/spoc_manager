@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserSignupForm,SpocTableForm
-from .models import Spoc
+from .models import Spoc, screen_name_choices, team_name_choices
 from django.contrib.auth.models import User
 import pandas as pd
 import os
@@ -84,22 +84,53 @@ def make_entry(request):
     }
     return render(request, 'spoc/newentry.html', context)
 
+def validate_entry(i, df):
+    screenName = df["Screen Name"][i]
+    teamName = df["Team Name"][i]
+    spocName = df["Spoc Name"][i]
+    spoc_entry = Spoc.objects.filter(screen_name=screenName).filter(team_name=teamName).filter(spoc_name=spocName).filter(is_approve=False)
+    
+    if pd.isnull(screenName) or pd.isnull(teamName) or pd.isnull(spocName) :
+        error = f"Atleast one cell is null in row {i+1} of the uploaded file"
+        return (False, error)
+    
+    elif (not any(screenName in s for s in screen_name_choices)) or (not any(teamName in s for s in team_name_choices)):
+        error = f"Invalid screen name or team name provided in row {i+1} of the uploaded file"
+        return (False, error)
+    else:
+        return (True, "")
+
+def unique_entry(i, df):
+    screenName = df["Screen Name"][i]
+    teamName = df["Team Name"][i]
+    spocName = df["Spoc Name"][i]
+    spoc_entry = Spoc.objects.filter(screen_name=screenName).filter(team_name=teamName).filter(spoc_name=spocName).filter(is_approve=False)
+    if spoc_entry:
+        print(f"Non-unique entry, didn't added row {i+1} in the uploaded file")
+        return(False)
+    return True
+
 def upload(request):
     luser = User.objects.get(username=request.user)
     if request.method == 'POST':
         file = request.FILES['file']
-        print(file)
-        df = pd.read_csv(file)
+        df = pd.read_csv(file, skipinitialspace = True)
         for i in df.index:
-            spoc = Spoc(screen_name = df["Screen Name"][i], 
-                team_name = df["Team Name"][i], 
-                spoc_name = df["Spoc Name"][i],
-                created_by = luser.get_full_name(),
-                modified_by = luser.get_full_name())
-            spoc.save()
+            res, err = validate_entry(i, df)
+            if res:
+                if unique_entry(i, df):
+                    spoc = Spoc(screen_name = df["Screen Name"][i], 
+                        team_name = df["Team Name"][i], 
+                        spoc_name = df["Spoc Name"][i],
+                        created_by = luser.get_full_name(),
+                        modified_by = luser.get_full_name())
+                    spoc.save()
+            else:
+                return render(request, 'spoc/upload.html', {'error':err})
         return redirect('spoc-view')
     else:
         return render(request, 'spoc/upload.html')
+
 
 def download(request):
     file_path = os.path.join(settings.MEDIA_ROOT, 'template.csv')
