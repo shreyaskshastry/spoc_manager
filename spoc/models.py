@@ -39,6 +39,7 @@ team_name_choices = [
 ]
 
 class Spoc(models.Model):   
+    id = models.AutoField(primary_key=True)
     screen_name =  models.CharField(max_length=50,choices=screen_name_choices,null=True)
     team_name =  models.CharField(max_length=50,choices=team_name_choices,null=True)
     spoc_name =  models.CharField(max_length=50,null=True)

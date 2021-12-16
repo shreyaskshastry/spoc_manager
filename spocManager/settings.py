@@ -128,4 +128,4 @@ MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'spoc-view'
+LOGIN_REDIRECT_URL = 'redirect'

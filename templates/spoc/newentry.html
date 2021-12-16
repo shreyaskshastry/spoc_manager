@@ -42,8 +42,8 @@ INDEX PAGE
       </div>
     </div>
     <div class="col-md-12  text-center">
-      <input type="submit" name="Add">
-      <input type="submit" name="Cancel">
+      <button class="btn btn-primary text-right" type="submit">Add</button>
+      <button type="submit" class="btn btn-primary text-right" onclick="location.href='{% url 'spoc-view'%}'">Cancel</button>
     </div>   
 </form>    
 {%endblock%}

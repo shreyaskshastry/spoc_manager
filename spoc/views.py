@@ -11,20 +11,47 @@ from django.http import HttpResponse, Http404
 
 
 def view(request):
-    if request.method == "POST":
-        file = request.FILES["file"]
+    # if request.method == "POST":
+        # file = request.FILES["file"]
     luser = User.objects.get(username=request.user)
     context = {
         'profile' : luser.get_full_name(),
-        'entries' : Spoc.objects.all()
+        'entries' : Spoc.objects.filter(is_approve=False)
     }
-    return render(request, 'spoc/view.html',context)
+    if(luser.is_staff):
+        return render(request, 'spoc/admin_view.html',context)
+    else:
+        return render(request, 'spoc/view.html',context)
 
-def edit(request):
-    return render(request, 'spoc/edittable.html')
+def edit(request, pk):
+    spoc = Spoc.objects.get(id=pk)
+    form = SpocTableForm(instance=spoc)
+    luser = User.objects.get(username=request.user)
+    if request.method == 'POST':
+        # print(request.POST)
+        formdata = request.POST.copy()
+        formdata['modified_by'] = luser.get_full_name()
+        formdata['created_by'] = str(spoc.created_by)
+        formdata['is_delete'] = spoc.is_delete
+        form = SpocTableForm(formdata,instance=spoc)
+        if form.is_valid():
+            form.save()
+            return redirect('/view')
+    context = {
+        'form':form,
+        'profile' : str(spoc.created_by)
+    }
+    return render(request, 'spoc/newentry.html', context)
 
-def delete(request):
-    return render(request, 'spoc/delete.html')
+def delete(request, id):
+    luser = User.objects.get(username=request.user)
+    context = {
+        'entry' : Spoc.objects.get(pk=id)
+    }
+    to_delete = Spoc.objects.get(pk=id)
+    to_delete.is_delete = True
+    to_delete.save()
+    return render(request, 'spoc/delete.html',context)
 
 def signup(request):
     if request.method=='POST':
@@ -82,3 +109,41 @@ def download(request):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
+def approve(request):
+    luser = User.objects.get(username=request.user)
+    context = {
+        'profile' : luser.get_full_name(),
+        'entries' : Spoc.objects.filter(is_delete=True,is_approve=False)
+    }
+    return render(request, 'spoc/admin_view.html',context)
+
+def confirm_delete(request,id):
+    luser = User.objects.get(username=request.user)
+    context = {
+        'entry' : Spoc.objects.get(pk=id)
+    }
+    if request.method == "POST":
+        to_approve = Spoc.objects.get(pk=id)
+        to_approve.is_approve = True
+        to_approve.save()
+        return redirect('/adminview')
+    return render(request, 'spoc/confirm_delete.html',context)
+
+def confirm_reject(request,id):
+    luser = User.objects.get(username=request.user)
+    context = {
+        'entry' : Spoc.objects.get(pk=id)
+    }
+    if request.method == "POST":
+        to_delete = Spoc.objects.get(pk=id)
+        to_delete.is_delete = False
+        to_delete.save()
+        return redirect('/adminview')
+    return render(request, 'spoc/confirm_reject.html',context)
+
+from django.http import HttpResponse, HttpResponseRedirect
+@login_required
+def login_redirect(request):
+    if request.user.is_superuser: return HttpResponseRedirect("/adminview/")
+    return HttpResponseRedirect("/view/")

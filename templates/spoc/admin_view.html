@@ -4,11 +4,8 @@ View PAGE
 {%endblock%}
 
 {%block content%}
-<div class="col-md-12 mt-4 text-right">
-  <button type="submit" class="btn btn-primary text-right" onclick="location.href='{% url 'spoc-upload'%}'">Bulk Upload</button>
-  <button type="submit" class="btn btn-primary text-right ml-3 mr-3" onclick="location.href='{% url 'spoc-download'%}'">Download Template</button>
-</div>
-
+<p>
+<p>
 <div class="container d-flex justify-content-center align-items-center">
     <div class="card">
         <div class="user text-center">
@@ -30,8 +27,8 @@ View PAGE
         <th scope="col">Created by</th>
         <th scope="col">Modified Date</th>
         <th scope="col">Modified By</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
+        <th scope="col"></th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -45,11 +42,8 @@ View PAGE
           <td>{{entry.created_by}}</td>
           <td>{{entry.modified_date}}</td>
           <td>{{entry.modified_by}}</td>
-          <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'spoc-edit' entry.id %}'">Edit</button></td>
-          <td> 
-            {% if entry.is_delete %}<button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'spoc-view' %}'">Pending</button>
-            {% else %}<button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'spoc-delete' entry.id %}'">Delete</button>{% endif %}
-          </td>
+          <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'confirm' entry.id %}'">Approve</button></td>
+          <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'reject' entry.id %}'">Reject</button></td>
           <script type="text/javascript">
             function change( el )
             {
