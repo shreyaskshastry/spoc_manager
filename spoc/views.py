@@ -141,13 +141,17 @@ def download(request):
             return response
     raise Http404
 
+@login_required
 def approve(request):
-    luser = User.objects.get(username=request.user)
-    context = {
-        'profile' : luser.get_full_name(),
-        'entries' : Spoc.objects.filter(is_delete=True,is_approve=False)
-    }
-    return render(request, 'spoc/admin_view.html',context)
+    if request.user.is_superuser:
+        luser = User.objects.get(username=request.user)
+        context = {
+            'profile' : luser.get_full_name(),
+            'entries' : Spoc.objects.filter(is_delete=True,is_approve=False)
+        }
+        return render(request, 'spoc/admin_view.html',context)
+    else:
+        return redirect('spoc-view')
 
 def confirm_delete(request,id):
     luser = User.objects.get(username=request.user)
