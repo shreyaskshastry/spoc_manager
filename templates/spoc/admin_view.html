@@ -7,11 +7,11 @@ Admin View PAGE
 <p>
 <p>
 <div class="container d-flex justify-content-center align-items-center">
-    <div class="card">
+    <div class="card my-2">
         <div class="user text-center">
             <div class="profile"> <img src="https://t4.ftcdn.net/jpg/02/15/84/43/240_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" class="rounded-circle" width="80"> </div>
         </div>
-        <div class="mt-5 text-center">
+        <div class="mt-3 text-center px-2">
             <h4 class="mb-0">{{profile}}</h4> <span class="text-muted d-block mb-2"><p></span>
         </div>
     </div>
@@ -42,8 +42,8 @@ Admin View PAGE
           <td>{{entry.created_by}}</td>
           <td>{{entry.modified_date}}</td>
           <td>{{entry.modified_by}}</td>
-          <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'confirm' entry.id %}'">Approve</button></td>
-          <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'reject' entry.id %}'">Reject</button></td>
+          <td><button type="submit" class="btn btn-success text-right" onclick="location.href='{% url 'confirm' entry.id %}'">Approve</button></td>
+          <td><button type="submit" class="btn btn-danger text-right" onclick="location.href='{% url 'reject' entry.id %}'">Reject</button></td>
           <script type="text/javascript">
             function change( el )
             {

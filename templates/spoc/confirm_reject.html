@@ -12,10 +12,10 @@ Confirm Reject PAGE
 <div class="col-md-6 mt-4 text-right">
 <form method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'admin-view' %}'">Yes</button>
+    <button type="submit" class="btn btn-success text-right" onclick="location.href='{% url 'admin-view' %}'">Yes</button>
 </form>
 <p>
     <p>
-<button type="button" class="btn btn-secondary text-right" onclick="location.href='{% url 'admin-view' %}'">No</button>
+<button type="button" class="btn btn-danger text-right" onclick="location.href='{% url 'admin-view' %}'">No</button>
 </div>
 {%endblock%}

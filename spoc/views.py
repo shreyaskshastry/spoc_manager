@@ -8,6 +8,8 @@ import pandas as pd
 import os
 from django.conf import settings
 from django.http import HttpResponse, Http404
+import datetime
+from django.utils  import timezone
 
 
 def view(request):
@@ -27,10 +29,12 @@ def edit(request, pk):
     spoc = Spoc.objects.get(id=pk)
     form = SpocTableForm(instance=spoc)
     luser = User.objects.get(username=request.user)
+    spoc.modified_date = datetime.date.today()
     if request.method == 'POST':
         # print(request.POST)
         formdata = request.POST.copy()
         formdata['modified_by'] = luser.get_full_name()
+        formdata['modified_date'] = timezone.now
         formdata['created_by'] = str(spoc.created_by)
         formdata['is_delete'] = spoc.is_delete
         form = SpocTableForm(formdata,instance=spoc)
@@ -74,7 +78,9 @@ def make_entry(request):
         formdata['modified_by'] = luser.get_full_name()
         form = SpocTableForm(formdata)
         if form.is_valid():
-            form.save()
+            spoc_entry = Spoc.objects.filter(screen_name=formdata['screen_name']).filter(team_name=formdata['team_name']).filter(spoc_name=formdata['spoc_name']).filter(is_approve=False)
+            if(not spoc_entry):
+                form.save()
             return redirect('/view')
         else:
             print("lol")
