@@ -5,8 +5,9 @@ View PAGE
 
 {%block content%}
 <div class="col-md-12 mt-4 text-right">
-  <button type="submit" class="btn btn-primary text-right" onclick="location.href='{% url 'spoc-upload'%}'">Bulk Upload</button>
-  <button type="submit" class="btn btn-primary text-right ml-3 mr-3" onclick="location.href='{% url 'spoc-download'%}'">Download Template</button>
+   <button type="submit" class="btn btn-success text-right" onclick="location.href='{% url 'spoc-entry'%}'">Add-Spoc</button>
+  <button type="submit" class="btn btn-primary text-right ml-3" onclick="location.href='{% url 'spoc-upload'%}'">Bulk Upload</button>
+  <button type="submit" class="btn btn-info text-right ml-3 mr-3" onclick="location.href='{% url 'spoc-download'%}'">Download Template</button>
 </div>
 
 <div class="container d-flex justify-content-center align-items-center">
@@ -19,6 +20,7 @@ View PAGE
         </div>
     </div>
 </div>
+
 <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -47,7 +49,7 @@ View PAGE
           <td>{{entry.modified_by}}</td>
           <td><button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'spoc-edit' entry.id %}'">Edit</button></td>
           <td> 
-            {% if entry.is_delete %}<button type="submit" class="btn btn-warning text-right" onclick="location.href='{% url 'spoc-view' %}'">Pending</button>
+            {% if entry.is_delete %}<button type="submit" class="btn btn-warning text-right">Pending</button>
             {% else %}<button type="submit" class="btn btn-secondary text-right" onclick="location.href='{% url 'spoc-delete' entry.id %}'">Delete</button>{% endif %}
           </td>
           <script type="text/javascript">
@@ -62,6 +64,7 @@ View PAGE
         </tr>
         
       {% endfor %}
+      
     </tbody>
     
   </table>
